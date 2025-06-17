@@ -36,3 +36,17 @@ db.testing.insertMany([
 ])
 
 ```
+
+### 3. Find - for find all documents
+
+```
+db.testing.find({})
+```
+
+It will give your all documents
+
+### 4. findOne - for find specific document
+
+```
+db.testing.find({ email: "altman@gmail.com"});
+```
