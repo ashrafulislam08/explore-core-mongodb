@@ -2,6 +2,7 @@
 
 ```
     db.test.find({ gender: "Male"}, {gender: 1, name: 1, email: 1})
+    db.test.find({ gender: "Female"}).project({name: 1, email: 1, gender: 1})
 
 ```
 
@@ -10,94 +11,92 @@
 
 ## MongoDB Operators
 
-# 📘 MongoDB Query Operators Cheat Sheet
-
-MongoDB provides a rich query language with various operators. Here’s a categorized overview:
+# 📘 MongoDB Query Operators Cheat Sheet (with Examples)
 
 ---
 
 ## 🔁 Comparison Operators
 
-| Operator | Description                                                       |
-| -------- | ----------------------------------------------------------------- |
-| `$eq`    | Matches values that are equal to the given value.                 |
-| `$gt`    | Matches values that are greater than the given value.             |
-| `$lt`    | Matches values that are less than the given value.                |
-| `$gte`   | Matches values that are greater than or equal to the given value. |
-| `$lte`   | Matches values that are less than or equal to the given value.    |
-| `$ne`    | Matches values that are not equal to the given value.             |
-| `$in`    | Matches any of the values specified in an array.                  |
-| `$nin`   | Matches none of the values specified in an array.                 |
+| Operator | Description                                | Example                                       |
+| -------- | ------------------------------------------ | --------------------------------------------- |
+| `$eq`    | Matches values equal to a specified value. | `{ age: { $eq: 30 } }`                        |
+| `$gt`    | Greater than a specified value.            | `{ score: { $gt: 80 } }`                      |
+| `$lt`    | Less than a specified value.               | `{ price: { $lt: 100 } }`                     |
+| `$gte`   | Greater than or equal to.                  | `{ marks: { $gte: 40 } }`                     |
+| `$lte`   | Less than or equal to.                     | `{ quantity: { $lte: 10 } }`                  |
+| `$ne`    | Not equal to a specified value.            | `{ status: { $ne: "active" } }`               |
+| `$in`    | Matches any value in an array.             | `{ category: { $in: ["food", "clothing"] } }` |
+| `$nin`   | Matches none of the values in an array.    | `{ type: { $nin: ["used", "refurbished"] } }` |
 
 ---
 
 ## 🧠 Logical Operators
 
-| Operator | Description                               |
-| -------- | ----------------------------------------- |
-| `$and`   | Joins query clauses with a logical AND.   |
-| `$or`    | Joins query clauses with a logical OR.    |
-| `$not`   | Inverts the effect of a query expression. |
-| `$nor`   | Joins query clauses with a logical NOR.   |
+| Operator | Description                         | Example                                                     |
+| -------- | ----------------------------------- | ----------------------------------------------------------- |
+| `$and`   | Combines conditions with AND logic. | `{ $and: [ { age: { $gt: 18 } }, { age: { $lt: 30 } } ] }`  |
+| `$or`    | Combines conditions with OR logic.  | `{ $or: [ { city: "NY" }, { city: "LA" } ] }`               |
+| `$not`   | Inverts the query condition.        | `{ score: { $not: { $gt: 80 } } }`                          |
+| `$nor`   | None of the conditions are true.    | `{ $nor: [ { status: "pending" }, { status: "failed" } ] }` |
 
 ---
 
 ## 📌 Element Operators
 
-| Operator  | Description                                                 |
-| --------- | ----------------------------------------------------------- |
-| `$exists` | Matches documents that have the specified field.            |
-| `$type`   | Selects documents if a field is of the specified BSON type. |
+| Operator  | Description          | Example                        |
+| --------- | -------------------- | ------------------------------ |
+| `$exists` | Field exists or not. | `{ phone: { $exists: true } }` |
+| `$type`   | Matches BSON type.   | `{ age: { $type: "int" } }`    |
 
 ---
 
 ## 📏 Evaluation Operators
 
-| Operator      | Description                                                          |
-| ------------- | -------------------------------------------------------------------- |
-| `$expr`       | Allows the use of aggregation expressions within the query language. |
-| `$jsonSchema` | Validates documents against the given JSON Schema.                   |
-| `$mod`        | Performs a modulo operation on the value of a field.                 |
-| `$regex`      | Selects documents where values match a specified regular expression. |
-| `$text`       | Performs text search on content indexed with a text index.           |
-| `$where`      | Matches documents that satisfy a JavaScript expression.              |
+| Operator      | Description                               | Example                                                                |
+| ------------- | ----------------------------------------- | ---------------------------------------------------------------------- |
+| `$expr`       | Use aggregation expressions in queries.   | `{ $expr: { $gt: ["$spent", "$budget"] } }`                            |
+| `$jsonSchema` | Validate documents against a JSON schema. | `{ $jsonSchema: { bsonType: "object", required: ["name", "email"] } }` |
+| `$mod`        | Modulus operation.                        | `{ score: { $mod: [5, 0] } }` (Multiples of 5)                         |
+| `$regex`      | Regular expression match.                 | `{ name: { $regex: "^A", $options: "i" } }`                            |
+| `$text`       | Text search using text index.             | `{ $text: { $search: "mongodb" } }`                                    |
+| `$where`      | JavaScript condition.                     | `{ $where: "this.age > 18" }`                                          |
 
 ---
 
 ## 🌍 Geospatial Operators
 
-| Operator         | Description                                               |
-| ---------------- | --------------------------------------------------------- |
-| `$geoWithin`     | Matches geometries within a bounding shape.               |
-| `$geoIntersects` | Matches geometries that intersect with a given shape.     |
-| `$near`          | Returns documents sorted by proximity to a point.         |
-| `$nearSphere`    | Similar to `$near`, but calculates distances on a sphere. |
+| Operator         | Description                      | Example                                                                                                     |
+| ---------------- | -------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `$geoWithin`     | Matches geometry inside shape.   | `{ location: { $geoWithin: { $center: [[50, 50], 10] } } }`                                                 |
+| `$geoIntersects` | Intersects with a given shape.   | `{ location: { $geoIntersects: { $geometry: { type: "Polygon", coordinates: [...] } } } }`                  |
+| `$near`          | Returns documents near a point.  | `{ location: { $near: { $geometry: { type: "Point", coordinates: [40, 5] }, $maxDistance: 1000 } } }`       |
+| `$nearSphere`    | Same as `$near` but on a sphere. | `{ location: { $nearSphere: { $geometry: { type: "Point", coordinates: [40, 5] }, $maxDistance: 1000 } } }` |
 
 ---
 
 ## 🧩 Array Operators
 
-| Operator     | Description                                                                                      |
-| ------------ | ------------------------------------------------------------------------------------------------ |
-| `$all`       | Matches arrays that contain all elements specified.                                              |
-| `$elemMatch` | Matches documents that contain an array field with at least one element matching all conditions. |
-| `$size`      | Matches any array with the specified number of elements.                                         |
+| Operator     | Description                                               | Example                                             |
+| ------------ | --------------------------------------------------------- | --------------------------------------------------- |
+| `$all`       | Matches arrays that contain all specified elements.       | `{ tags: { $all: ["red", "blue"] } }`               |
+| `$elemMatch` | Matches array element that satisfies multiple conditions. | `{ scores: { $elemMatch: { $gt: 80, $lt: 100 } } }` |
+| `$size`      | Matches array of specified length.                        | `{ items: { $size: 3 } }`                           |
 
 ---
 
 ## 💡 Bitwise Operators
 
-| Operator        | Description                                                    |
-| --------------- | -------------------------------------------------------------- |
-| `$bitsAllClear` | Matches documents where all given bit positions are clear (0). |
-| `$bitsAllSet`   | Matches documents where all given bit positions are set (1).   |
-| `$bitsAnyClear` | Matches documents where any given bit position is clear.       |
-| `$bitsAnySet`   | Matches documents where any given bit position is set.         |
+| Operator        | Description                        | Example                                |
+| --------------- | ---------------------------------- | -------------------------------------- |
+| `$bitsAllClear` | All bits at given positions are 0. | `{ flags: { $bitsAllClear: [1, 4] } }` |
+| `$bitsAllSet`   | All bits at given positions are 1. | `{ flags: { $bitsAllSet: [1, 4] } }`   |
+| `$bitsAnyClear` | Any bit at position is 0.          | `{ flags: { $bitsAnyClear: [1, 4] } }` |
+| `$bitsAnySet`   | Any bit at position is 1.          | `{ flags: { $bitsAnySet: [1, 4] } }`   |
 
 ---
 
 ## 📝 Comments Operator
 
-| Operator   | Description                                          |
-| ---------- | ---------------------------------------------------- |
-| `$comment` | Adds a comment to a query to help trace or debug it. |
+| Operator   | Description           | Example                                                      |
+| ---------- | --------------------- | ------------------------------------------------------------ |
+| `$comment` | Add comment to query. | `{ age: { $gt: 25 }, $comment: "Filtering adults over 25" }` |
