@@ -4,4 +4,8 @@
 db.test.find({ age: {$gt: 30}}, {name: 1, age: 1})
 ```
 
-#### Task 2 -
+#### Task 2 - Find documents where the favorite color is either "Maroon" or "Blue."
+
+```
+db.test.find({ favoriteColor: { $in: ["Maroon", "Blue"]} })
+```
