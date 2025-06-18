@@ -31,3 +31,9 @@ db.test.find({
 })
 
 ```
+
+#### Task 5 - Add a new skill to the skills array for the document with the email "amccurry3@cnet.com". The skill is {"name": "Python", "level": "Beginner", "isLearning": true}
+
+```
+db.test.updateOne({email: "bgorgen4@gravatar.com"}, {$push: {skills: {name: "PYTHON", level: "Beginner", isLearing: true}}})
+```
