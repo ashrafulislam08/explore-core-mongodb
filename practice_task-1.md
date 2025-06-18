@@ -45,3 +45,10 @@ db.test.updateOne({email: "bgorgen4@gravatar.com"},
     {$push: {languages: "Spanish"}}
 )
 ```
+
+#### Task 7 - Remove the skill with the name "PYTHON" from the skills array.
+
+```
+db.test.updateOne({email: "bgorgen4@gravatar.com"}, {$pull: {"skills": {name: "PYTHON"} }})
+
+```
