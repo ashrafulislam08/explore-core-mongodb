@@ -37,3 +37,11 @@ db.test.find({
 ```
 db.test.updateOne({email: "bgorgen4@gravatar.com"}, {$push: {skills: {name: "PYTHON", level: "Beginner", isLearing: true}}})
 ```
+
+#### Task 6 - Add a new language "Spanish" to the list of languages spoken by the person.
+
+```
+db.test.updateOne({email: "bgorgen4@gravatar.com"},
+    {$push: {languages: "Spanish"}}
+)
+```
