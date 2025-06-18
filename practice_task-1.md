@@ -15,3 +15,19 @@ db.test.find({ favoriteColor: { $in: ["Maroon", "Blue"]} })
 ```
 db.test.find({skills: { $size: 0}})
 ```
+
+#### Task 4 - Find documents where the person has skills in both "JavaScript" and "Java"
+
+```
+db.test.find({
+    $and: [{
+        "skills.name": "JAVASCRIPT"
+    },
+    {
+        "skills.name": "JAVA"
+    }
+
+    ]
+})
+
+```
