@@ -9,3 +9,9 @@ db.test.find({ age: {$gt: 30}}, {name: 1, age: 1})
 ```
 db.test.find({ favoriteColor: { $in: ["Maroon", "Blue"]} })
 ```
+
+#### Task 3 - Find all documents where the skill is an empty array.
+
+```
+db.test.find({skills: { $size: 0}})
+```
